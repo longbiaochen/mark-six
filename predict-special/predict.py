@@ -35,20 +35,20 @@ print dataset.shape
 n_features = 49
 code = one_hot_encode(dataset, n_features)
 
-train_size = 100
-test_size = 51
+train_size = int(len(dataset) * 0.67)
+test_size = len(dataset) - train_size
 train, test = code[0:train_size, :], code[train_size:len(code), :]
 print(code.shape, train.shape, test.shape)
 
 # reshape into X=t and Y=t+1
-look_back = 8
+look_back = 32
 trainX, trainY = create_dataset(train, look_back)
 testX, testY = create_dataset(test, look_back)
 print trainX.shape, trainY.shape
 print one_hot_decode(trainX[0, :, :]), one_hot_decode([trainY[0]])
 
 # %% define model
-hidden_size = 32
+hidden_size = 64
 model = Sequential()
 model.add(LSTM(hidden_size, input_shape=(
     look_back, n_features), return_sequences=True))

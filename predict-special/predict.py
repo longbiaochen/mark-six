@@ -1,6 +1,5 @@
 import numpy
 from pandas import read_csv
-from matplotlib import pyplot
 from keras.models import Sequential
 from keras.layers import LSTM
 from keras.layers import Dense
@@ -32,12 +31,9 @@ def create_dataset(data, look_back=1):
 dataframe = read_csv("../data/special.csv", header=None)
 dataset = dataframe.values[:, 0]
 print dataset.shape
-pyplot.plot(dataset)
-pyplot.show()
 
 n_features = 49
 code = one_hot_encode(dataset, n_features)
-print code
 
 train_size = 100
 test_size = 51
@@ -52,18 +48,18 @@ print trainX.shape, trainY.shape
 print one_hot_decode(trainX[0, :, :]), one_hot_decode([trainY[0]])
 
 # %% define model
-hidden_size = 16
+hidden_size = 32
 model = Sequential()
 model.add(LSTM(hidden_size, input_shape=(
-    look_back, n_features), return_sequences=False))
-# model.add(LSTM(hidden_size, input_shape=(look_back, n_features)))
+    look_back, n_features), return_sequences=True))
+model.add(LSTM(hidden_size, input_shape=(look_back, n_features)))
 model.add(Dense(n_features, activation='softmax'))
 model.compile(loss='categorical_crossentropy',
               optimizer='adam', metrics=['acc'])
 print(model.summary())
 
 # %% fit model
-model.fit(trainX, trainY, epochs=10, batch_size=2, verbose=1)
+model.fit(trainX, trainY, epochs=10, batch_size=8, verbose=1)
 
 # %% evaluate model with training set
 scores = model.evaluate(trainX, trainY)
@@ -80,8 +76,3 @@ testYhat = model.predict(testX)
 for i in range(testX.shape[0]):
     print [one_hot_decode(testX[i, :, :]), one_hot_decode(
         [testY[i]]), one_hot_decode([testYhat[i]])]
-
-# %%
-pyplot.plot(one_hot_decode(testY), 'b')
-pyplot.plot(one_hot_decode(testYhat), 'g')
-pyplot.show()

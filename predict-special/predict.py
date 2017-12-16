@@ -11,12 +11,11 @@ def one_hot_encode(sequence, n_features):
         vector = [0 for _ in range(n_features)]
         vector[value - 1] = 1
         encoding.append(vector)
-    return array(encoding)
+    return numpy.array(encoding)
 
 
 def one_hot_decode(code):
-
-    return [(argmax(vector) + 1) for vector in code]
+    return [(numpy.argmax(vector) + 1) for vector in code]
 
 
 def create_dataset(data, look_back=1):
@@ -29,6 +28,7 @@ def create_dataset(data, look_back=1):
 
 # %% load data
 dataframe = read_csv("../data/special.csv", header=None)
+# dataframe = read_csv("../data/fake.csv", header=None)
 dataset = dataframe.values[:, 0]
 print dataset.shape
 
@@ -37,7 +37,7 @@ code = one_hot_encode(dataset, n_features)
 
 train_size = 100
 test_size = 51
-train, test = code[0:train_size, :], code[train_size:len(codes), :]
+train, test = code[0:train_size, :], code[train_size:len(code), :]
 print(code.shape, train.shape, test.shape)
 
 # reshape into X=t and Y=t+1
@@ -58,8 +58,8 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', metrics=['acc'])
 print(model.summary())
 
-# %% fit model
-model.fit(trainX, trainY, epochs=10, batch_size=8, verbose=1)
+# fit model
+model.fit(trainX, trainY, epochs=1000, batch_size=8, verbose=1)
 
 # %% evaluate model with training set
 scores = model.evaluate(trainX, trainY)

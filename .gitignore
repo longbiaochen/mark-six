@@ -1,0 +1,5 @@
+archives
+node_modules
+slides
+*.mat
+*.dropbox

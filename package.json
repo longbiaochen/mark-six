@@ -1,0 +1,21 @@
+{
+  "name": "lstm-six",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Longbiao CHEN <longbiaochen@icloud.com> (http://longbiaochen.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "array-to-csv": "^1.0.1",
+    "cheerio": "^1.0.0-rc.2",
+    "csv": "^2.0.0",
+    "encoding": "^0.1.12",
+    "iconv-lite": "^0.4.19",
+    "jquery": "^3.2.1",
+    "mathjs": "^3.17.0",
+    "request": "^2.83.0"
+  }
+}
